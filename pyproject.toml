@@ -1,0 +1,18 @@
+[project]
+name = "adapter-heybox"
+version = "0.1.0"
+description = "Heybox adapter for nonebot2"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+    "aiohttp>=3.11.11",
+    "nonebot2>=2.4.1",
+]
+
+[dependency-groups]
+dev = [
+    "black>=24.10.0",
+    "isort>=5.13.2",
+    "nonemoji>=0.1.4",
+    "pre-commit>=4.0.1",
+]
