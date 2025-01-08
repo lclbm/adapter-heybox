@@ -44,6 +44,11 @@ class ActionFailed(BaseActionFailed, HeyboxAdapterException):
         )
 
 
+class PermissionDenied(ActionFailed):
+    def __repr__(self) -> str:
+        return f"<PermissionDenied: {self.msg}>"
+
+
 class NetworkError(BaseNetworkError, HeyboxAdapterException):
     def __init__(self, msg: str | None = None):
         super().__init__()
