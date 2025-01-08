@@ -1,13 +1,31 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
 [project]
-name = "adapter-heybox"
+name = "nontbot-adapter-heybox"
 version = "0.1.0"
 description = "Heybox adapter for nonebot2"
+authors = [
+  { name="hzw223", email="614867321@qq.com" },
+]
+classifiers = [
+  "Development Status :: 5 - Production/Stable",
+  "Framework :: Robot Framework",
+  "Framework :: Robot Framework :: Library",
+  "Operating System :: OS Independent",
+  "Programming Language :: Python :: 3",
+]
 readme = "README.md"
 requires-python = ">=3.11"
 dependencies = [
     "aiohttp>=3.11.11",
     "nonebot2>=2.4.1",
 ]
+
+[project.urls]
+Homepage = "https://github.com/lclbm/adapter-heybox"
+Issues = "https://github.com/lclbm/adapter-heybox/issues"
 
 [dependency-groups]
 dev = [
