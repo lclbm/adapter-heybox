@@ -1,8 +1,6 @@
-import asyncio
 import json
 from typing import TYPE_CHECKING, Any, Union, cast
 
-import aiohttp
 from nonebot.drivers import Request, Response
 from typing_extensions import override
 
@@ -35,19 +33,8 @@ class Bot(BaseBot):
 
     async def _request(self, request: Request) -> Any:
         try:
-            for i in range(4):
-                try:
-                    response = await self.adapter.request(request)
-                    break
-                except aiohttp.ServerConnectionError as e:
-                    if i == 3:
-                        raise e
-                    else:
-                        log("WARNING", f"Request failed, retrying... ({i + 1}/3), {e}")
-                        await asyncio.sleep(0.1)
-                        continue
+            response = await self.adapter.request(request)
         except Exception as e:
-            log("ERROR", f"Request failed, {e.__class__.__name__}", e)
             raise NetworkError(f"API request failed, {e}") from e
 
         return self._handle_response(response)
@@ -107,14 +94,11 @@ class Bot(BaseBot):
 
     @API
     async def upload_image(self, *, bytes: bytes, filename: str) -> str:
-        form = aiohttp.FormData()
-        form.add_field("file", bytes, filename=filename)
-
         request = Request(
             "POST",
             "https://chat-upload.xiaoheihe.cn/upload",
             headers={"token": self.bot_info.token},
-            data=form,
+            files=[("file", (filename, bytes, None))],
         )
         resp = await self._request(request)
         return resp["result"]["url"]

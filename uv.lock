@@ -415,12 +415,12 @@ name = "nontbot-adapter-heybox"
 version = "0.1.0"
 source = { editable = "." }
 dependencies = [
-    { name = "aiohttp" },
     { name = "nonebot2" },
 ]
 
 [package.dev-dependencies]
 dev = [
+    { name = "aiohttp" },
     { name = "black" },
     { name = "isort" },
     { name = "nonemoji" },
@@ -428,13 +428,11 @@ dev = [
 ]
 
 [package.metadata]
-requires-dist = [
-    { name = "aiohttp", specifier = ">=3.11.11" },
-    { name = "nonebot2", specifier = ">=2.4.1" },
-]
+requires-dist = [{ name = "nonebot2", specifier = ">=2.4.1" }]
 
 [package.metadata.requires-dev]
 dev = [
+    { name = "aiohttp", specifier = ">=3.11.0" },
     { name = "black", specifier = ">=24.10.0" },
     { name = "isort", specifier = ">=5.13.2" },
     { name = "nonemoji", specifier = ">=0.1.4" },
