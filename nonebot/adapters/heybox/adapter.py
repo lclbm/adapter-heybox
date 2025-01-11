@@ -35,7 +35,7 @@ class Adapter(BaseAdapter):
     def __init__(self, driver: Driver, **kwargs: Any):
         super().__init__(driver, **kwargs)
         self.heybox_config: Config = get_plugin_config(Config)
-        self.tasks: list[asyncio.Task] = []
+        self.tasks: set[asyncio.Task] = set()
         self.setup()
 
     @classmethod
@@ -69,7 +69,9 @@ class Adapter(BaseAdapter):
 
     async def start_forward(self) -> None:
         for bot_info in self.heybox_config.heybox_bots:
-            self.tasks.append(asyncio.create_task(self.run_bot(bot_info)))
+            task = asyncio.create_task(self.run_bot(bot_info))
+            task.add_done_callback(self.tasks.discard)
+            self.tasks.add(task)
 
     async def stop_forward(self) -> None:
         for task in self.tasks:
@@ -87,7 +89,9 @@ class Adapter(BaseAdapter):
             f"wss://chat.xiaoheihe.cn/chatroom/ws/connect?chat_os_type=bot&client_type=heybox_chat&chat_version=1.22.2&token={bot_info.token}"
         )
 
-        self.tasks.append(asyncio.create_task(self._forward_ws(bot, ws_url)))
+        task = asyncio.create_task(self._forward_ws(bot, ws_url))
+        task.add_done_callback(self.tasks.discard)
+        self.tasks.add(task)
 
     async def _forward_ws(self, bot: Bot, ws_url: URL) -> None:
         request = Request("GET", ws_url, timeout=30.0)
