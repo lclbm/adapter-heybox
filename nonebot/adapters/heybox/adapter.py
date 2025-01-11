@@ -56,7 +56,7 @@ class Adapter(BaseAdapter):
                 "websocket client! "
                 f"{self.get_name()} Adapter need a WebSocketClient Driver to work."
             )
-        self.driver.on_startup(self.start_forward)
+        self.on_ready(self.start_forward)
         self.driver.on_shutdown(self.stop_forward)
 
     @override
