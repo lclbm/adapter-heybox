@@ -1,5 +1,10 @@
 from .adapter import Adapter as Adapter
 from .bot import Bot as Bot
 from .event import Event as Event
+from .exception import DuplicateMessageError as DuplicateMessageError
+from .exception import PermissionDeniedError as PermissionDeniedError
+from .exception import PrivateRoomError as PrivateRoomError
+from .exception import RoomNotJoinedError as RoomNotJoinedError
+from .exception import SendMessageError as SendMessageError
 from .message import Message as Message
 from .message import MessageSegment as MessageSegment
