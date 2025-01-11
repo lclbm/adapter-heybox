@@ -44,9 +44,36 @@ class ActionFailed(BaseActionFailed, HeyboxAdapterException):
         )
 
 
-class PermissionDenied(ActionFailed):
+MESSAGE_ERROR_MAP = {}
+
+
+def register_message_error(msg: str):
+    def decorator(cls: type[SendMessageError]):
+        MESSAGE_ERROR_MAP[msg] = cls
+        return cls
+
+    return decorator
+
+
+class SendMessageError(ActionFailed):
     def __repr__(self) -> str:
-        return f"<PermissionDenied: {self.msg}>"
+        return f"<{self.__class__.__name__}: {self.msg}>"
+
+
+@register_message_error("权限不足，无法发言")
+class PermissionDeniedError(SendMessageError): ...
+
+
+@register_message_error("消息已发送，请勿重复发送")
+class DuplicateMessageError(SendMessageError): ...
+
+
+@register_message_error("请加入房间后再发送消息")
+class RoomNotJoinedError(SendMessageError): ...
+
+
+@register_message_error("该频道为私密频道，无法发送消息")
+class PrivateRoomError(SendMessageError): ...
 
 
 class NetworkError(BaseNetworkError, HeyboxAdapterException):

@@ -8,7 +8,7 @@ from nonebot.adapters import Bot as BaseBot
 
 from .config import BotInfo
 from .event import Event, UserIMMessageEvent
-from .exception import ActionFailed, NetworkError, PermissionDenied
+from .exception import MESSAGE_ERROR_MAP, ActionFailed, NetworkError, SendMessageError
 from .message import Image, LocalImage, Mention, Message, MessageSegment
 from .model import MessageSendDataDict
 from .utils import API, gen_nonce, log
@@ -45,9 +45,7 @@ class Bot(BaseBot):
 
             if resp.get("status") != "ok":
                 msg = resp.get("msg")
-                if msg == "权限不足，无法发言":
-                    raise PermissionDenied(response)
-                raise ActionFailed(response)
+                raise MESSAGE_ERROR_MAP.get(msg, SendMessageError)(response)
 
             return resp
         else:
