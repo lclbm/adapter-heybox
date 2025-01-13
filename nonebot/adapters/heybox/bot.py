@@ -18,8 +18,8 @@ if TYPE_CHECKING:
 
 
 class Bot(BaseBot):
-    def __init__(self, adapter: "Adapter", bot_info: BotInfo):
-        super().__init__(adapter, bot_info.id)
+    def __init__(self, adapter: "Adapter", self_id: str, bot_info: BotInfo):
+        super().__init__(adapter, self_id)
         self.bot_info = bot_info
 
         self._heychat_ack_id = -1

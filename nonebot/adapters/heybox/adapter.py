@@ -84,7 +84,7 @@ class Adapter(BaseAdapter):
         )
 
     async def run_bot(self, bot_info: BotInfo):
-        bot = Bot(self, bot_info)
+        bot = Bot(self, bot_info.id, bot_info)
         ws_url = URL(
             f"wss://chat.xiaoheihe.cn/chatroom/ws/connect?chat_os_type=bot&client_type=heybox_chat&chat_version=1.22.2&token={bot_info.token}"
         )
