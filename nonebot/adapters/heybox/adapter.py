@@ -160,6 +160,7 @@ class Adapter(BaseAdapter):
             return HeartbeatMetaEvent()
 
         json_data: MessageDict = json.loads(data)
+        # TODO: maybe delete this field in the future
         if not (notify_type := json_data.get("notify_type")):
             return None
         event_class = EVENT_CLASSES.get(notify_type)
