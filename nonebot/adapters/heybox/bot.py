@@ -155,3 +155,5 @@ class Bot(BaseBot):
                 message,
                 reply_id=event.im_seq if is_reply else None,
             )
+
+        raise RuntimeError("Event cannot be replied to!")
